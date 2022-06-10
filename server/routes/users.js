@@ -57,9 +57,9 @@ router.get("/find/:id", async (req, res) => {
 });
 
 //GET ALL
-router.get("/", verify, async (req, res) => {
+router.get("/", async (req, res) => {
   const query = req.query.new;
-  if (req.user.isAdmin) {
+  // if (req.user.isAdmin) {
     try {
       const users = query
         ? await User.find().sort({ _id: -1 }).limit(5)
@@ -68,9 +68,9 @@ router.get("/", verify, async (req, res) => {
     } catch (err) {
       res.status(500).json(err);
     }
-  } else {
-    res.status(403).json("You are not allowed to see all users!");
-  }
+  // } else {
+  //   res.status(403).json("You are not allowed to see all users!");
+  // }
 });
 
 //GET USER STATS
