@@ -1,12 +1,27 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const cors = require("cors")
-const moment = require("moment")
-const port = 9800;
+// const express = require("express")
+// const mongoose = require("mongoose")
+// const cors = require("cors")
+// const dotenv = require("dotenv");
+// const authRoute = require("./routes/auth");
+// const userRoute = require("./routes/users");
+// const movieRoute = require("./routes/movies");
+// const listRoute = require("./routes/lists");
+const port = 8100;
 
-const app = express()
-app.use(express.json())
-app.use(cors())
+// const app = express()
+// app.use(express.json())
+// app.use(cors())
+
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const authRoute = require("./routes/auth");
+const userRoute = require("./routes/users");
+const movieRoute = require("./routes/movies");
+const listRoute = require("./routes/lists");
+
+dotenv.config();
 
 mongoose
   .connect(
@@ -20,9 +35,13 @@ mongoose
   })
   .catch(console.error)
 
-app.get('/movie', (req, res) => {
-    res.status(200).send("Movies")
-})
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/movies", movieRoute);
+app.use("/api/lists", listRoute);
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
