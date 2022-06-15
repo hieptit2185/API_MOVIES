@@ -12,23 +12,23 @@ const port = 8100;
 
 dotenv.config();
 
-// mongoose
-//   .connect(
-//     `mongodb+srv://khachiep:khachiep12@cluster0.75k6z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-//     {
-//       useUnifiedTopology: true,
-//     }
-//   )
-//   .then(() => {
-//     console.log("Connected to DB")
-//   })
-//   .catch(console.error)
-main().catch((err) => console.log(err));
+mongoose
+  .connect(
+    `mongodb+srv://khachiep:khachiep12@cluster0.75k6z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+    {
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("Connected to DB")
+  })
+  .catch(console.error)
+// main().catch((err) => console.log(err));
 
-async function main() {
-  await mongoose.connect(process.env.MONGO_URL);
-  console.log("😎 DB is running succesfully");
-}
+// async function main() {
+//   await mongoose.connect(process.env.MONGO_URL);
+//   console.log("😎 DB is running succesfully");
+// }
 
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }))
 app.use(bodyParser.json({ limit: '50mb' }))

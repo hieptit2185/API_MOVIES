@@ -58,19 +58,19 @@ router.get("/find/:id", async (req, res) => {
 
 //GET ALL
 router.get("/", async (req, res) => {
-  const query = req.query.new;
-  // if (req.user.isAdmin) {
+  const query = req.query;
+  if (req.user.isAdmin) {
     try {
-      const users = query
-        ? await User.find().sort({ _id: -1 }).limit(5)
-        : await User.find();
+      const users = query.sort
+        ? await User.find().sort({ _id: -1 }).limit(5).lean()
+        : await User.find().lean();
       res.status(200).json(users);
     } catch (err) {
       res.status(500).json(err);
     }
-  // } else {
-  //   res.status(403).json("You are not allowed to see all users!");
-  // }
+  } else {
+    res.status(403).json("You are not allowed to see all users!");
+  }
 });
 
 //GET USER STATS
