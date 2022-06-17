@@ -36,7 +36,6 @@ router.delete("/:id", async (req, res) => {
 //GET
 
 router.get("/", async (req, res) => {
-  res.status(200).send("hiepne")
   const typeQuery = req.query.type;
   const genreQuery = req.query.genre;
   let list = [];
