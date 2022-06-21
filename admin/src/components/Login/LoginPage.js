@@ -24,7 +24,7 @@ const LoginPage = () => {
             Object.keys(res.data).length && localStorage.setItem('user', JSON.stringify(res.data))
 
             if(!res.data.isAdmin) return setError('Your account is not Admin!!')
-            if (res.data.isAdmin) return navigate("/users")
+            if (res.data.isAdmin) return navigate("/movies")
         } catch (e) {
             setError(!!e.response.data ? e.response.data : '')
         }
@@ -66,7 +66,7 @@ const LoginPage = () => {
                                         <input type="password" name="password" id="password" className="form-control" value={password} onChange={changePassword} />
                                     </div>
                                     <div className="form-group">
-                                        <input type="submit" name="submit" className="btn btn-info btn-md" value="Submit" />
+                                        <input type="submit" name="submit" className="btn btn-info btn-md" value="Login" />
                                     </div>
                                     <div className="text-danger">{!!error && error}</div>
                                 </form>

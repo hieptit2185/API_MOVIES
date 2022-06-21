@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import UserPage from './components/users/UserPage'
 import Login from './components/Login/LoginPage'
-import Home from './components/Home/Home'
+import Home from './components/Layout/LayoutContainer'
 import Movies from './components/Movies/MoviesPage'
 import Lists from './components/Lists/ListsPage'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 function App() {
   const routers = [
     {
-      path: '/login',
+      path: '/',
       component: Login,
       layout: true,
     },
@@ -53,3 +53,4 @@ function App() {
 }
 
 export default App;
+

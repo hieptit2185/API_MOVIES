@@ -5,7 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  /* overflow: hidden; */
+  background-color: #f9fafb;
+  box-sizing: border-box;
 }
 
 code {
@@ -16,3 +18,17 @@ code {
 .ant-menu.ant-menu-dark{
   height:100vh;
 }
+
+.SectionInner {
+  background-color: #fff;
+  padding: 15px;
+  border: 1px solid rgba(0,0,0,.0625);
+  border-radius: 4px;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+

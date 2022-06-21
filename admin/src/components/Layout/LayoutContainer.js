@@ -25,18 +25,18 @@ const items = [
     getItem(<Link to="/users">Users</Link>, '4', <AppstoreOutlined />),
 ]
 
-const Home = ({ children }) => {
+const LayoutContainer = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
 
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
     };
     return (
-        <div className="Home">
-            <div className="row">
+        <div className="LayoutContainer">
+            <div className="row mr-0">
                 <div className="col-2">
                     <Menu
-                        defaultSelectedKeys={['1']}
+                        defaultSelectedKeys={['2']}
                         defaultOpenKeys={['sub1']}
                         mode="inline"
                         theme="dark"
@@ -56,4 +56,4 @@ const Home = ({ children }) => {
     )
 }
 
-export default Home
+export default LayoutContainer
