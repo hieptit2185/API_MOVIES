@@ -5,6 +5,7 @@ import Home from './components/Layout/LayoutContainer'
 import Movies from './components/Movies/MoviesPage'
 import Lists from './components/Lists/ListsPage'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import HomePage from './components/Home/HomePage'
 
 function App() {
   const routers = [
@@ -24,6 +25,10 @@ function App() {
     {
       path: '/lists',
       component: Lists
+    },
+    {
+      path: '/home',
+      component: HomePage
     },
 
   ]

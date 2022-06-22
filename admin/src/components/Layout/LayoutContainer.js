@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Menu } from 'antd'
+import './style.css'
+import { useLocation } from "react-router-dom"
 import {
     AppstoreOutlined,
     ContainerOutlined,
@@ -26,18 +28,30 @@ const items = [
 ]
 
 const LayoutContainer = ({ children }) => {
-    const [collapsed, setCollapsed] = useState(false);
 
-    const toggleCollapsed = () => {
-        setCollapsed(!collapsed);
-    };
+    const history = useLocation()
+
+    const showItemsMenu = (pathname) => {
+      switch(pathname){
+        case '/home':
+            return '1'
+        case '/movies':
+            return '2'
+        case '/lists':
+            return '3'
+        case '/users':
+            return '4'
+        default:
+      }
+    }
+
     return (
         <div className="LayoutContainer">
-            <div className="row mr-0">
+            <div className="row mr-0 h-100">
                 <div className="col-2">
                     <Menu
-                        defaultSelectedKeys={['2']}
-                        defaultOpenKeys={['sub1']}
+                        selectedKeys={[showItemsMenu(history.pathname)]}
+                        openKeys={['2']}
                         mode="inline"
                         theme="dark"
                         // inlineCollapsed={collapsed}
