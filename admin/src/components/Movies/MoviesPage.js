@@ -61,7 +61,7 @@ const MoviesPage = () => {
             <div className="d-flex justify-content-between align-items-center">
                 <h1 className="PageTitle mt-2 mb-2">List Movies</h1>
                 <div className='col-auto ml-3 ml-sm-0 mr-3 mr-lg-0'>
-                    <Link to="/a/movies/new" className="btn btn-primary">Add new movies</Link>
+                    <Link to="/movies/new" className="btn btn-primary">Add new movies</Link>
                 </div>
             </div>
             <div className="SectionInner">
