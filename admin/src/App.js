@@ -7,6 +7,8 @@ import Lists from './components/Lists/ListsPage'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import HomePage from './components/Home/HomePage'
 import CreateMovie from './components/Movies/CreateMovie'
+import CreateList from './components/Lists/CreateList'
+
 
 function App() {
   const routers = [
@@ -34,6 +36,10 @@ function App() {
     {
       path: '/movies/new',
       component: CreateMovie
+    },
+    {
+      path: '/lists/new',
+      component: CreateList
     },
 
   ]

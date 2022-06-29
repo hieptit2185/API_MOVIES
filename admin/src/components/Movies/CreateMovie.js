@@ -1,59 +1,69 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ReturnPage from '../../shared/ReturnPage'
 import { storage } from "../../firebase"
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage"
+import { useNavigate } from "react-router-dom"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
-
+import axios from 'axios'
+import { Button, Input, Select, message, Spin } from 'antd'
 
 
 const CreateMovie = () => {
 
-    const [movie, setMovie] = useState(null)
+    const url = "http://localhost:3100"
+    const navigate = useNavigate()
+    const [payload, setPayload] = useState(null)
     const [img, setImg] = useState(null)
     const [imgTitle, setImgTitle] = useState(null)
     const [imgSm, setImgSm] = useState(null)
     const [trailer, setTrailer] = useState(null)
     const [video, setVideo] = useState(null)
-    const [uploaded, setUploaded] = useState(0)
-    const [imgList, setImgList] = useState([])
-    const imgListRef = ref(storage, "images/")
-
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
         const value = e.target.value
-        setMovie({ ...movie, [e.target.name]: value })
+        setPayload({ ...payload, [e.target.name]: value })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).accessToken : ''
+        setLoading(true)
+
+        try {
+            const res = await axios.post(`${url}/api/movies`,
+                {
+                    ...payload, img, imgTitle, imgSm, trailer, video,
+                },
+                {
+                    headers: {
+                        token: `Bearer ${token}`
+                    }
+                },
+            )
+
+            if (!res.data) return message.error('Unknown error.')
+
+            message.success('Create moview success!!')
+            navigate("/movies")
+
+        } catch (e) {
+            console.log(e.message || 'Unknown error.')
+        } finally {
+            setLoading(false)
+        }
 
     }
 
-    const handleChangeFile = (e) => {
-        const value = e.target.files[0]
-        upload(value)
-    }
-
-
-    const upload = (field) => {
-
-        if (field === null) return
+    const upload = (field, set) => {
 
         const imgRef = ref(storage, `images/${field.name + v4()}`)
         uploadBytes(imgRef, field).then((res) => {
-            console.log(res)
-        })
-    }
-
-    useEffect(() => {
-        listAll(imgListRef).then(res => {
-            res.items.forEach(item => {
-                getDownloadURL(item).then(url => {
-                    setImgList(prev => [...prev, url])
-                })
+            getDownloadURL(res.ref).then(url => {
+                set(url)
             })
         })
-    }, [])
+    }
 
     return (
 
@@ -61,37 +71,38 @@ const CreateMovie = () => {
             <ReturnPage url="/movies" title="Back" />
             <h1 className="PageTitle mt-2 mb-2">New Movie</h1>
             <div className="SectionInner">
-                <form className="addProductForm">
+                <form className="addProductForm d-flex flex-wrap">
                     <div className="addProductItem">
-                        <label>Image</label>
-                        <input
+                        <label>Image<span className='text-danger'>*</span></label>
+                        <Input
                             type="file"
                             id="img"
                             name="img"
-                            onChange={handleChangeFile}
+                            onChange={e => upload(e.target.files[0], setImg)}
                         />
                     </div>
-                    {/* <div className="addProductItem">
-                        <label>Title image</label>
-                        <input
+                    <div className="addProductItem">
+                        <label>Title image<span className='text-danger'>*</span></label>
+                        <Input
                             type="file"
                             id="imgTitle"
                             name="imgTitle"
-                            onChange={(e) => setImgTitle(e.target.files[0])}
+                            onChange={e => upload(e.target.files[0], setImgTitle)}
+
                         />
                     </div>
                     <div className="addProductItem">
-                        <label>Thumbnail image</label>
-                        <input
+                        <label>Thumbnail image<span className='text-danger'>*</span></label>
+                        <Input
                             type="file"
                             id="imgSm"
                             name="imgSm"
-                            onChange={(e) => setImgSm(e.target.files[0])}
+                            onChange={e => upload(e.target.files[0], setImgSm)}
                         />
                     </div>
                     <div className="addProductItem">
-                        <label>Title</label>
-                        <input
+                        <label>Title<span className='text-danger'>*</span></label>
+                        <Input
                             type="text"
                             placeholder="John Wick"
                             name="title"
@@ -99,17 +110,15 @@ const CreateMovie = () => {
                         />
                     </div>
                     <div className="addProductItem">
-                        <label>Description</label>
-                        <input
-                            type="text"
-                            placeholder="description"
-                            name="desc"
-                            onChange={handleChange}
-                        />
+                        <label>Is Series?<span className='text-danger'>*</span></label>
+                        <Select name="isSeries" id="isSeries" onChange={handleChange}>
+                            <Select.Option value="false">No</Select.Option>
+                            <Select.Option value="true">Yes</Select.Option>
+                        </Select>
                     </div>
                     <div className="addProductItem">
-                        <label>Year</label>
-                        <input
+                        <label>Year<span className='text-danger'>*</span></label>
+                        <Input
                             type="text"
                             placeholder="Year"
                             name="year"
@@ -117,8 +126,8 @@ const CreateMovie = () => {
                         />
                     </div>
                     <div className="addProductItem">
-                        <label>Genre</label>
-                        <input
+                        <label>Genre<span className='text-danger'>*</span></label>
+                        <Input
                             type="text"
                             placeholder="Genre"
                             name="genre"
@@ -126,8 +135,8 @@ const CreateMovie = () => {
                         />
                     </div>
                     <div className="addProductItem">
-                        <label>Duration</label>
-                        <input
+                        <label>Duration<span className='text-danger'>*</span></label>
+                        <Input
                             type="text"
                             placeholder="Duration"
                             name="duration"
@@ -135,46 +144,42 @@ const CreateMovie = () => {
                         />
                     </div>
                     <div className="addProductItem">
-                        <label>Limit</label>
-                        <input
+                        <label>Limit<span className='text-danger'>*</span></label>
+                        <Input
                             type="text"
                             placeholder="limit"
-                            name="limit"
+                            name="Limit"
                             onChange={handleChange}
                         />
                     </div>
                     <div className="addProductItem">
-                        <label>Is Series?</label>
-                        <select name="isSeries" id="isSeries" onChange={handleChange}>
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
-                        </select>
+                        <label>Description<span className='text-danger'>*</span></label>
+                        <Input.TextArea
+                            type="text"
+                            placeholder="Description"
+                            name="desc"
+                            onChange={handleChange}
+                        />
                     </div>
                     <div className="addProductItem">
-                        <label>Trailer</label>
-                        <input
+                        <label>Trailer<span className='text-danger'>*</span></label>
+                        <Input
                             type="file"
                             name="trailer"
-                            onChange={(e) => setTrailer(e.target.files[0])}
+                            onChange={e => upload(e.target.files[0], setTrailer)}
                         />
                     </div>
                     <div className="addProductItem">
-                        <label>Video</label>
-                        <input
+                        <label>Video<span className='text-danger'>*</span></label>
+                        <Input
                             type="file"
                             name="video"
-                            onChange={(e) => setVideo(e.target.files[0])}
+                            onChange={e => upload(e.target.files[0], setVideo)}
                         />
                     </div>
-                    {uploaded === 5 ? (
-                        <button className="addProductButton" onClick={handleSubmit}>
-                            Create
-                        </button>
-                    ) : (
-                        <button className="addProductButton" onClick={handleUpload}>
-                            Upload
-                        </button>
-                    )} */}
+                    <Button type="primary mx-3" onClick={handleSubmit}>
+                        Create {loading ? <Spin /> : ''}
+                    </Button>
                 </form>
             </div>
         </div>

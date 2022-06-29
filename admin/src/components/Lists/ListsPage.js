@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DocTitleByStore from '../../shared/DocTitleByStore'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { Pagination } from 'antd'
+import { Pagination, Spin } from 'antd'
 
 
 const ListsPage = () => {
@@ -59,59 +59,61 @@ const ListsPage = () => {
             <div className="d-flex justify-content-between align-items-center">
                 <h1 className="PageTitle mt-2 mb-2">Lists</h1>
                 <div className='col-auto ml-3 ml-sm-0 mr-3 mr-lg-0'>
-                    <Link to="/a/movies/new" className="btn btn-primary">Add new list</Link>
+                    <Link to="/lists/new" className="btn btn-primary">Add new list</Link>
                 </div>
             </div>
-            <div className="SectionInner">
-                {
-                    !loading && lists.length > 0 &&
-                    <div className="MoviesTable">
-                        <div className="wrapTable">
-                            <table className="table">
-                                <thead className="ShippingsTableHead">
-                                    <tr>
-                                        <th className="Supplier">Title</th>
-                                        <th className="Zone">Genre</th>
-                                        <th className="Store">Type</th>
-                                        <th className="Product_title">Number of movies</th>
-                                        <th className="Action">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        lists.length && currentMovies.map((item, index) => {
-                                            return <tr key={index}>
-                                                <td>{item.title}</td>
-                                                <td>{item.genre}</td>
-                                                <td>{item.type}</td>
-                                                <td>{item.content.length}</td>
-                                                <td>
-                                                    <span className="text-primary px-1" style={{ cursor: "pointer" }}>Edit</span>|<span className="text-danger px-1" style={{ cursor: "pointer" }}>Delete</span>
-                                                </td>
-                                            </tr>
-                                        })
-                                    }
-                                </tbody>
-                            </table>
+            <Spin tip="Loading..." spinning={loading}>
+                <div className="SectionInner">
+                    {
+                        !loading && lists.length > 0 &&
+                        <div className="MoviesTable">
+                            <div className="wrapTable">
+                                <table className="table">
+                                    <thead className="ShippingsTableHead">
+                                        <tr>
+                                            <th className="Supplier">Title</th>
+                                            <th className="Zone">Genre</th>
+                                            <th className="Store">Type</th>
+                                            <th className="Product_title">Number of movies</th>
+                                            <th className="Action">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            lists.length && currentMovies.map((item, index) => {
+                                                return <tr key={index}>
+                                                    <td>{item.title}</td>
+                                                    <td>{item.genre}</td>
+                                                    <td>{item.type}</td>
+                                                    <td>{item.content.length}</td>
+                                                    <td>
+                                                        <span className="text-primary px-1" style={{ cursor: "pointer" }}>Edit</span>|<span className="text-danger px-1" style={{ cursor: "pointer" }}>Delete</span>
+                                                    </td>
+                                                </tr>
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="Pagination d-flex justify-content-between">
+                                <div></div>
+                                <Pagination current={page} total={lists.length} pageSize={limit} onChange={_handlePageChange}
+                                    className='text-right' showSizeChanger pageSizeOptions={['10', '20', '50', '100']}
+                                />
+                            </div>
                         </div>
-                        <div className="Pagination d-flex justify-content-between">
-                            <div></div>
-                            <Pagination current={page} total={lists.length} pageSize={limit} onChange={_handlePageChange}
-                                className='text-right' showSizeChanger pageSizeOptions={['10', '20', '50', '100']}
-                            />
-                        </div>
-                    </div>
-                }
-                {
-                    loading && <div>Loading...</div>
-                }
+                    }
+                    {
+                        loading && <div>Loading...</div>
+                    }
 
-                {
-                    !loading && lists.length === 0 && <div>No result</div>
-                }
+                    {
+                        !loading && lists.length === 0 && <div>No result</div>
+                    }
 
 
-            </div>
+                </div>
+            </Spin>
         </div>
     )
 }
