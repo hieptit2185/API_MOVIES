@@ -10,7 +10,7 @@ import { Button, Input, Select, message, Spin } from 'antd'
 
 const CreateMovie = () => {
 
-    const url = "http://localhost:3100"
+    const url = "http://localhost:9100"
     const navigate = useNavigate()
     const [payload, setPayload] = useState(null)
     const [img, setImg] = useState(null)

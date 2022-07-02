@@ -6,7 +6,7 @@ import { Pagination } from 'antd'
 
 const UserPage = () => {
 
-    const url = "http://localhost:3100"
+    const url = "http://localhost:9100"
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [users, setUsers] = useState([])

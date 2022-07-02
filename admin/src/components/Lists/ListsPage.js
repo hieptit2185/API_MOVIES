@@ -6,7 +6,7 @@ import { Pagination, Spin } from 'antd'
 
 
 const ListsPage = () => {
-    const url = "http://localhost:3100"
+    const url = "http://localhost:9100"
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [lists, setLists] = useState([])

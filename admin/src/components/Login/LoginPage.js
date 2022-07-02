@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 const LoginPage = () => {
 
     const navigate = useNavigate()
-    const url = "http://localhost:3100"
+    const url = "http://localhost:9100"
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')

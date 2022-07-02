@@ -7,7 +7,7 @@ import { Button, Input, Select, message, Spin } from 'antd'
 
 const CreateList = () => {
 
-    const url = "http://localhost:3100"
+    const url = "http://localhost:9100"
     const navigate = useNavigate()
 
     return (
