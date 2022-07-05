@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react'
 import DocTitleByStore from '../../shared/DocTitleByStore'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { Pagination, message, Spin } from 'antd'
+import { Pagination, message, Spin, Modal } from 'antd'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 import './Movie.css'
+
+const { confirm } = Modal
+
 
 
 const MoviesPage = () => {
@@ -66,6 +70,21 @@ const MoviesPage = () => {
         setPage(page)
     }
 
+    const showDeleteConfirm = (id, title) => {
+        confirm({
+            title: `Are you sure delete this ${title}?`,
+            icon: <ExclamationCircleOutlined />,
+            content: '',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+
+            onOk() {
+                handleDelete(id)
+            },
+        });
+    };
+
     useEffect(() => {
         _fetchMovies()
     }, [])
@@ -116,7 +135,7 @@ const MoviesPage = () => {
                                                     </td>
                                                     <td>
                                                         <span className="text-primary px-1" style={{ cursor: "pointer" }}>Edit</span>|
-                                                        <span className="text-danger px-1" onClick={() => handleDelete(item._id)} style={{ cursor: "pointer" }}>Delete</span>
+                                                        <span className="text-danger px-1" onClick={() => showDeleteConfirm(item._id, item.title)} style={{ cursor: "pointer" }}>Delete</span>
                                                     </td>
                                                 </tr>
                                             })
