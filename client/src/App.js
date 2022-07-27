@@ -3,6 +3,10 @@ import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
 import Watch from "./pages/watch/Watch";
 import Login from "./pages/login/Login";
+import Mylist from "./components/my-list/Mylist";
+import VipMovie from "./components/vip-movie/VipMovie";
+
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -30,11 +34,14 @@ const App = () => {
             <Route path="/movies">
               <Home type="movie" />
             </Route>
-            <Route path="/series">
-              <Home type="series" />
+            <Route path="/vip">
+              <VipMovie />
             </Route>
             <Route path="/watch">
               <Watch />
+            </Route>
+            <Route path="/my-list">
+              <Mylist />
             </Route>
           </>
         )}

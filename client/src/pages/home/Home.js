@@ -31,7 +31,7 @@ const Home = ({ type }) => {
     };
     getRandomLists();
   }, [type, genre]);
-
+  
   return (
     <div className="home">
       <Navbar />

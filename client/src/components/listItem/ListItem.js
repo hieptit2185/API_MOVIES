@@ -15,6 +15,7 @@ export default function ListItem({ index, item }) {
 	const [isLike, setIsLike] = useState(false);
 	const [isDisLike, setIsDisLike] = useState(false);
 	const [isFavorite, setIsFavorite] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
 
 	const url = "http://localhost:9100"
 
@@ -37,7 +38,19 @@ export default function ListItem({ index, item }) {
 
 	const handleAddFavorite = async () => {
 		setIsFavorite(!isFavorite)
-		console.log(movie._id)
+		const check = isFavorite ? false : true;
+
+		try {
+			const {data} = await axios.put(`${url}/api/users/favorite/${user._id}`,{
+				isFavorite : check,
+				favorites : movie._id
+			})
+
+			localStorage.setItem("user",JSON.stringify({...data, accessToken: user.accessToken}))
+			
+		} catch (err) {
+			console.log(err);
+		}
 	}
 
 	const handleLike =  () => {
@@ -59,10 +72,10 @@ export default function ListItem({ index, item }) {
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
 			>
-				<img src={movie?.imgSm} alt="" />
-				{movie.isVip &&
-					<img src="https://www.constructionleadersclub.com/wp-content/uploads/2018/11/VIP.png" style={{ width: "40px", height: "40px", position: "absolute" }} />
-				}
+				<img src={movie?.imgSm} alt="" style={{border: movie.isVip ? "2px solid yellow" : ""}}/>
+				{/* {movie.isVip &&
+					<img src="https://www.constructionleadersclub.com/wp-content/uploads/2018/11/VIP.png" style={{ width: "40px", height: "40px", position: "absolute",left : "456px" }} />
+				} */}
 				{isHovered && (
 					<>
 						<video src={movie.trailer} autoPlay={true} loop />

@@ -30,6 +30,7 @@ export default function Featured({ type, setGenre }) {
         <div className="category">
           <span>{type === "movies" ? "Movies" : "Series"}</span>
           <select
+          style={{fontSize:'none'}}
             name="genre"
             id="genre"
             onChange={(e) => setGenre(e.target.value)}

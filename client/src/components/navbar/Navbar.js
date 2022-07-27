@@ -23,10 +23,10 @@ const Navbar = () => {
 
     const handleOk = async () => {
         try {
-            const {data} = await axios.put(`${url}/api/users/total/${user._id}`, {
+            const { data } = await axios.put(`${url}/api/users/total/${user._id}`, {
                 total: +value
             });
-            localStorage.setItem("user", JSON.stringify(data));
+            localStorage.setItem("user", JSON.stringify({...data, accessToken: user.accessToken}));
             setIsModalVisible(false);
         } catch (err) {
             console.log(err);
@@ -66,19 +66,20 @@ const Navbar = () => {
                     <Link to="/" className="link">
                         <span>Homepage</span>
                     </Link>
-                    <Link to="/series" className="link">
-                        <span className="navbarmainLinks">Vip</span>
-                    </Link>
                     <Link to="/movies" className="link">
                         <span className="navbarmainLinks">Movies</span>
                     </Link>
-                    <span>New and Popular</span>
-                    <span>My List</span>
+                    <Link to="/vip" className="link">
+                        <span className="navbarmainLinks">Vip</span>
+                    </Link>
+                    <Link to="/my-list" className="link">
+                        <span className="navbarmainLinks">My List</span>
+                    </Link>
                 </div>
                 <div className="right">
                     {/* <Search className="icon" /> */}
                     <span>{user.username.toUpperCase()}</span>
-                    <span style={{ margin: "0 20px" }}>Money: <span style={{ fontWeight: "bold" }}>{numberWithCommas(user.total)}$</span></span>
+                    <span style={{ margin: "0 20px" }}>Money: <span style={{ fontWeight: "bold" }}>{user.total ? numberWithCommas(user.total) : 0}$</span></span>
                     <img
                         src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                         alt=""
