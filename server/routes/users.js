@@ -98,4 +98,58 @@ router.get("/stats", async (req, res) => {
   }
 });
 
+// Add total money
+
+router.put("/total/:id", async (req, res) => {
+
+  try {
+    const id = req.params.id;
+    const newTotal = req.body.total
+    const options = { new: true }
+
+    const search = await User.findById(id)
+    const oldTotal = +search.total
+    const result = await User.findByIdAndUpdate(id, { total: newTotal + oldTotal }, options)
+
+    res.status(200).json(result)
+
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
+
+// UPDATE Favorite
+
+router.put("/favorite/:id", async (req, res) => {
+  try {
+
+    const id = req.params.id;
+    const user = await User.findById(id)
+    const isFavorite = req.body.isFavorite
+    const oldFavorite = user.favourites
+
+    if (isFavorite) {
+      if (oldFavorite.includes(req.body.favorites)) {
+        res.status(500).json('Movie already exists in the list')
+      } else {
+
+        const result = await User.findByIdAndUpdate(id, { favourites: [...oldFavorite, req.body.favorites] }, { new: true });
+
+        res.status(200).json(result)
+      }
+    } else {
+      if (!oldFavorite.includes(req.body.favorites)) {
+        res.status(500).json('Movie does not exist in the list')
+      } else {
+        const newFavorite = oldFavorite.filter(i=> i !== req.body.favorites)
+        const result = await User.findByIdAndUpdate(id, { favourites: [...newFavorite] }, { new: true });
+
+        res.status(200).json(result)
+      }
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
 module.exports = router;

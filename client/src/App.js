@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./authContext/AuthContext";
+import 'antd/dist/antd.css';
 
 const App = () => {
   const { user } = useContext(AuthContext);

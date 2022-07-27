@@ -24,7 +24,6 @@ export default function Featured({ type, setGenre }) {
     getRandomContent();
   }, []);
 
-  console.log(content);
   return (
     <div className="featured">
       {type && (
