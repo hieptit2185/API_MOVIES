@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema(
     profilePic: { type: String, defaut: "" },
     isAdmin: { type: Boolean, default: false },
     favourites : {type : Array},
-    total : { type: Number, default:0}
+    total : { type: Number, default:0},
+    isMember : { type: Boolean,default: false}
   },
   { timestamps: true }
 );

@@ -3,6 +3,7 @@ import Navbar from '../navbar/Navbar'
 import axios from "axios";
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 import ListItem from '../listItem/ListItem'
+import { Link } from "react-router-dom";
 import {
     ArrowBackIosOutlined,
     ArrowForwardIosOutlined,
@@ -60,7 +61,9 @@ const Mylist = () => {
                     <div className="buttons">
                         <button className="play">
                             <PlayArrow />
-                            <span>Play</span>
+                            <Link to={{ pathname: "/watch", movie: content }}>
+                                <span>Play</span>
+                            </Link>
                         </button>
                         <button className="more">
                             <InfoOutlined />

@@ -11,33 +11,34 @@ const Home = ({ type }) => {
   const url = "http://localhost:9100"
 
   useEffect(() => {
-    const getRandomLists = async () => {
-      try {
-        const res = await axios.get(
-          `${url}/api/lists${type ? "?type=" + type : ""}${
-            genre ? "&genre=" + genre : ""
-          }`,
-          {
-            headers: {
-              token:
-              "Bearer "+JSON.parse(localStorage.getItem("user")).accessToken,
-            },
-          }
-        );
-        setLists(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     getRandomLists();
   }, [type, genre]);
   
+  const getRandomLists = async () => {
+    try {
+      const res = await axios.get(
+        `${url}/api/lists${type ? "?type=" + type : ""}${
+          genre ? "&genre=" + genre : ""
+        }`,
+        {
+          headers: {
+            token:
+            "Bearer "+JSON.parse(localStorage.getItem("user")).accessToken,
+          },
+        }
+      );
+      setLists(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="home">
       <Navbar />
       <Featured type={type} setGenre={setGenre} />
       {lists.map((list) => (
-        <List list={list} />
+        <List list={list}/>
       ))}
     </div>
   );

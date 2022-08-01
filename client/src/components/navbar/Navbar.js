@@ -41,6 +41,7 @@ const Navbar = () => {
         const { value: inputValue } = e.target;
         const reg = /^-?\d*(\.\d*)?$/;
 
+        if(+inputValue < 0) return
         if (reg.test(inputValue) || inputValue === '' || inputValue === '-') {
             setValue(inputValue);
         }
@@ -72,8 +73,8 @@ const Navbar = () => {
                     <Link to="/vip" className="link">
                         <span className="navbarmainLinks">Vip</span>
                     </Link>
-                    <Link to="/my-list" className="link">
-                        <span className="navbarmainLinks">My List</span>
+                    <Link to="/my-favorites" className="link">
+                        <span className="navbarmainLinks">My Favorites</span>
                     </Link>
                 </div>
                 <div className="right">
@@ -94,7 +95,7 @@ const Navbar = () => {
                 </div>
             </div>
             <Modal title="Add money" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <label htmlFor="">Money($)</label>
+                <label style={{marginBottom : '10px', display : 'block'}} htmlFor="">Money($)</label>
                 <Input
                     value={value}
                     onChange={handleChange}

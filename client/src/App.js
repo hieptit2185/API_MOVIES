@@ -40,7 +40,7 @@ const App = () => {
             <Route path="/watch">
               <Watch />
             </Route>
-            <Route path="/my-list">
+            <Route path="/my-favorites">
               <Mylist />
             </Route>
           </>

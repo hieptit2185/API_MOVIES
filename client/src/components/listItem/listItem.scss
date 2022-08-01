@@ -79,3 +79,97 @@
     }
   }
 }
+
+.itemType {
+	background: #fafcfe;
+	position: relative;
+    border: 1px solid #dee2e6;
+    height: 100%;
+    border-radius: 8px;
+    transition: all .3s;
+	&:hover{
+		box-shadow: 2px 8px 16px rgb(0 0 0 / 16%);
+	}
+	.headingType{
+		position: relative;
+    	padding: 40px 0 20px;
+		text-align: center;
+		h3{
+			font-weight: 700;
+			font-size: 18px;
+			text-transform: uppercase;
+			color: #1d1d1f;
+			margin-bottom: 18px;
+			letter-spacing: .5px;
+			font-family: Roboto,-apple-system,system-ui,BlinkMacSystemFont,segoe ui,helvetica neue,Arial,sans-serif;
+    		line-height: 1.5;
+		}
+		.InfoPrice{
+			font-size: 16px;
+    		color: #65676b;
+			.Price{
+				color: #007bff;
+				font-size: 32px;
+				margin-right: 2px;
+				font-weight: 700;
+			}
+		}
+	}
+	.types{
+		padding: 0 40px 40px;
+    	text-align: left;
+		ul{
+			list-style: none;
+			padding-left: 0;
+    		margin-bottom: 0;
+			margin-top: 0;
+			li{
+				padding: 8px 0;
+				font-size: 14px;
+				color: #303238;
+				font-weight: 400;
+				list-style: none;
+				.Icon{
+					width: 24px;
+					height: 24px;
+					border-radius: 50%;
+					text-align: center;
+					line-height: 24px;
+					display: inline-block;
+					margin-right: 12px;
+					svg{
+						filter: invert(32%) sepia(30%) saturate(6041%) hue-rotate(199deg) brightness(102%) contrast(109%);
+						fill: #4c4c4c;
+						overflow: hidden;
+						vertical-align: middle;
+					}
+				}
+			}
+		}
+		.actionCreate{
+			margin-top: 35px;
+			a{
+				background: #007bff;
+				color: #fff;
+				font-weight: 400;
+				font-size: 16px;
+				display: inline-block;
+				width: 100%;
+				text-align: center;
+				border-radius: 4px;
+				height: 48px;
+				line-height: 48px;
+				-webkit-font-smoothing: antialiased;
+    			scroll-behavior: smooth;
+				text-decoration: none;
+				transition: all .3s ease-in-out;
+				&:hover {
+					background-color: #0062d9;
+				}
+			}
+		}
+	}
+}
+.ant-modal-footer{
+	display: none;
+}

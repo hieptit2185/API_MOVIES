@@ -53,7 +53,7 @@ const VipMovie = () => {
         getRandomContent();
         getListVip()
     }, []);
-
+    
     const handleClick = (direction) => {
         setIsMoved(true);
         let distance = listRef.current.getBoundingClientRect().x - 50;

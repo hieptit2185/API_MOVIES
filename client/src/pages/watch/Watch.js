@@ -4,7 +4,9 @@ import "./watch.scss";
 
 export default function Watch() {
   const location = useLocation();
-  const movie = location.movie;
+  const { movie } = Object.assign({}, location);
+  const { video: urlVideo } = Object.assign({}, movie);
+  console.log(urlVideo)
   return (
     <div className="watch">
       <Link to="/">
@@ -13,7 +15,7 @@ export default function Watch() {
           Home
         </div>
       </Link>
-      <video className="video" autoPlay progress controls src={movie.video} />
+      <video className="video" autoPlay progress type="video/mp4" controls src={urlVideo} />
     </div>
   );
 }
