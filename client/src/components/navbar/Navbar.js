@@ -1,4 +1,4 @@
-import { ArrowDropDown, Notifications, Search } from "@material-ui/icons";
+import { ArrowDropDown } from "@material-ui/icons";
 import { useContext, useState } from "react";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
@@ -26,7 +26,7 @@ const Navbar = () => {
             const { data } = await axios.put(`${url}/api/users/total/${user._id}`, {
                 total: +value
             });
-            localStorage.setItem("user", JSON.stringify({...data, accessToken: user.accessToken}));
+            localStorage.setItem("user", JSON.stringify({ ...data, accessToken: user.accessToken }));
             setIsModalVisible(false);
         } catch (err) {
             console.log(err);
@@ -41,7 +41,7 @@ const Navbar = () => {
         const { value: inputValue } = e.target;
         const reg = /^-?\d*(\.\d*)?$/;
 
-        if(+inputValue < 0) return
+        if (+inputValue < 0) return
         if (reg.test(inputValue) || inputValue === '' || inputValue === '-') {
             setValue(inputValue);
         }
@@ -78,11 +78,10 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <div className="right">
-                    {/* <Search className="icon" /> */}
                     <span>{user.username.toUpperCase()}</span>
-                    <span style={{ margin: "0 20px" }}>Money: <span style={{ fontWeight: "bold" }}>{user.total ? numberWithCommas(user.total) : 0}$</span></span>
+                    <span style={{ margin: "0 20px" }}>Money: <span style={{ fontWeight: "bold" }}>{user.total ? numberWithCommas(+user.total) : 0}$</span></span>
                     <img
-                        src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                        src={user.profilePic ? user.profilePic : ""}
                         alt=""
                     />
                     <div className="profile">
@@ -95,7 +94,7 @@ const Navbar = () => {
                 </div>
             </div>
             <Modal title="Add money" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <label style={{marginBottom : '10px', display : 'block'}} htmlFor="">Money($)</label>
+                <label style={{ marginBottom: '10px', display: 'block' }} htmlFor="">Money($)</label>
                 <Input
                     value={value}
                     onChange={handleChange}

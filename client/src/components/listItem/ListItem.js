@@ -22,6 +22,7 @@ export default function ListItem({ index, item }) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const url = "http://localhost:9100"
 
+
 	useEffect(() => {
 		const getMovie = async () => {
 			try {
@@ -71,8 +72,21 @@ export default function ListItem({ index, item }) {
 		setIsModalVisible(true);
 	}
 
-	const handleBuy = async => {
-		setIsModalVisible(false);
+	const handleBuy = async () => {
+
+		try {
+			const { data } = await axios.put(`${url}/api/users/checkout/${user._id}`, {
+				price: 359,
+				isMember: user.isMember
+			})
+
+			setIsModalVisible(false);
+			localStorage.setItem("user", JSON.stringify({ ...data, accessToken: user.accessToken }))
+			window.location.reload()
+
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	const handleCancel = () => {
@@ -93,7 +107,7 @@ export default function ListItem({ index, item }) {
 				} */}
 				{isHovered && (
 					<>
-						<video src={movie.trailer} autoPlay={true} loop />
+						{(user.isMember || !movie.isVip) && <video src={movie.trailer} autoPlay={true} loop />}
 						<div className="itemInfo">
 							<div className="icons">
 								{(user.isMember) ?
@@ -101,9 +115,9 @@ export default function ListItem({ index, item }) {
 										<PlayArrow className="icon" />
 									</Link>) :
 									movie.isVip ? (
-										<Link onClick={showModal}>
+										<a onClick={showModal}>
 											<PlayArrow className="icon" />
-										</Link>
+										</a>
 									) : (
 										<Link to={{ pathname: "/watch", movie: movie }}>
 											<PlayArrow className="icon" />
@@ -114,6 +128,7 @@ export default function ListItem({ index, item }) {
 								<ThumbUpAltOutlined className="icon" onClick={handleLike} style={{ backgroundColor: isLike ? "#3535cf" : "" }} />
 								<ThumbDownOutlined className="icon" onClick={handleDisLike} style={{ backgroundColor: isDisLike ? "#df1d1d" : "" }} />
 							</div>
+							<span style={{fontSize:"20px", fontWeight:"bold", color: "#ad3737", marginBottom : "10px"}}>{movie.title}</span>
 							<div className="itemInfoTop">
 								<span>{movie.duration}</span>
 								<span className="limit">+{movie.limit}</span>
@@ -124,7 +139,7 @@ export default function ListItem({ index, item }) {
 						</div>
 					</>
 				)}
-				<Modal title="Chose one plan and watch everything on Netflix" visible={isModalVisible} onCancel={handleCancel}>
+				<Modal title="Chose one plan and watch everything on Netflix" visible={isModalVisible} onCancel={handleCancel} className="modalCheckout">
 					<div className="itemType">
 						<div className="headingType">
 							<h3>Premium</h3>
@@ -164,10 +179,6 @@ export default function ListItem({ index, item }) {
 									<span class="Icon"><svg viewBox="0 0 18 14" fill="none" width="12"><path d="M6 11.17L1.83 6.99997L0.410004 8.40997L6 14L18 1.99997L16.59 0.589966L6 11.17Z" fill="currentcolor"></path></svg></span>
 									First month free
 								</li>
-								{/* <li>
-									<span class="Icon"><svg viewBox="0 0 18 14" fill="none" width="12"><path d="M6 11.17L1.83 6.99997L0.410004 8.40997L6 14L18 1.99997L16.59 0.589966L6 11.17Z" fill="currentcolor"></path></svg></span>
-									HD avaliable
-								</li> */}
 							</ul>
 							<div className="actionCreate">
 								<a onClick={handleBuy}>Buy now</a>
